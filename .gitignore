@@ -19,3 +19,4 @@ vendor/
 
 # Others
 .idea
+.DS_Store
