@@ -8,6 +8,7 @@ import (
 	"os"
 )
 
+// ReadEvents reads event's file, and publishes event actions to the eventbus
 func ReadEvents(eb *eventbus.EventBus) <-chan struct{} {
 
 	done := make(chan struct{})
@@ -24,7 +25,6 @@ func ReadEvents(eb *eventbus.EventBus) <-chan struct{} {
 
 		ch := make(chan []string)
 		go readers.CSVReader(csvFile, ch)
-
 
 		for line := range ch {
 			eb.Publish(line[1], line)

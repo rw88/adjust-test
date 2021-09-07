@@ -6,6 +6,7 @@ import (
 	"testing"
 )
 
+// TestCSVReader tests CSVReader
 func TestCSVReader(t *testing.T) {
 
 	ch := make(chan []string)

@@ -6,6 +6,7 @@ import (
 	"log"
 )
 
+// CSVReader parses a io.Reader that contains CSV entries
 func CSVReader(reader io.Reader, ch chan<- []string)  {
 
 	defer close(ch)

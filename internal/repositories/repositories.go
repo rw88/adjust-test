@@ -23,6 +23,7 @@ type Repository struct {
 	AmountCommits int
 }
 
+// ProcessRepositories reads repositories and related files, and applies sorting criteria
 func ProcessRepositories(sort []string, limit int) repoCollection  {
 
 	wg := &sync.WaitGroup{}

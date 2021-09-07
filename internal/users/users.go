@@ -24,6 +24,7 @@ type User struct {
 	AmountCommits int
 }
 
+// ProcessUsers reads users and related files, and applies sorting criteria
 func ProcessUsers(sorts []string, limit int) userCollection   {
 
 	wg := &sync.WaitGroup{}
@@ -65,14 +66,7 @@ func ProcessUsers(sorts []string, limit int) userCollection   {
 	}
 }
 
-
-func(u *User) amountActivity() int {
-
-	return u.AmountPRs + u.AmountCommits
-}
-
-
-
+// sortByFields sorts the collection by multiple fields
 func (uc userCollection) sortByFields(fields []string)  {
 
 	if len(fields) == 0 {
