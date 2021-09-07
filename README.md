@@ -32,6 +32,20 @@ Please also keep an eye on:
     - a Readme on how to run the solution
 
 
+
+## Prerequisites
+Have GO installed in your environment. At least version 1.16.
+
+At the project root, install the project dependencies.
+```
+go mod vendor
+```
+
+Unzip the data.tar.gz file so that the application has access to the test files.
+```
+tar -xf data.tar.gz
+```
+
 ## Usage
 
 Top 10 active users sorted by amount of PRs created and commits pushed
