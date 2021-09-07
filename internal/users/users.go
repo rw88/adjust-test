@@ -1,6 +1,7 @@
 package users
 
 import (
+	"github.com/rw88/adjust-coding-challenge/internal/configuration"
 	"github.com/rw88/adjust-coding-challenge/internal/eventbus"
 	"github.com/rw88/adjust-coding-challenge/internal/events"
 	"github.com/rw88/adjust-coding-challenge/internal/readers"
@@ -94,7 +95,7 @@ func ReadUsersFile(wg *sync.WaitGroup)  {
 
 	defer wg.Done()
 
-	csvFile, err := os.Open("data/actors.csv")
+	csvFile, err := os.Open(configuration.DataDirectory + "actors.csv")
 	if err != nil {
 		log.Fatal(err)
 	}

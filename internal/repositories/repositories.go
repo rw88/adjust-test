@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"github.com/rw88/adjust-coding-challenge/internal/configuration"
 	"github.com/rw88/adjust-coding-challenge/internal/eventbus"
 	"github.com/rw88/adjust-coding-challenge/internal/events"
 	"github.com/rw88/adjust-coding-challenge/internal/readers"
@@ -85,7 +86,7 @@ func (rc repoCollection) sortByFields(fields []string)  {
 func ReadRepos(wg *sync.WaitGroup)  {
 	defer wg.Done()
 
-	csvFile, err := os.Open("data/repos.csv")
+	csvFile, err := os.Open(configuration.DataDirectory + "repos.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
