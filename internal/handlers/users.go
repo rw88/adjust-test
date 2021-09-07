@@ -16,7 +16,7 @@ type ListUsersCommand struct {
 // ListUsersHandler handles ListUsersCommand commands
 func ListUsersHandler(ctx context.Context, cmd *ListUsersCommand) error {
 
-	topUsers := users.ProcessUsers(cmd.Sort)
+	topUsers := users.ProcessUsers(cmd.Sort, cmd.Limit)
 
 	for i, a := range topUsers {
 		fmt.Println("#" + strconv.Itoa(i+1) + " User:" + a.Username + " " + " #PRs: " + strconv.Itoa(a.AmountPRs) + " #Commits:" + strconv.Itoa(a.AmountCommits))
