@@ -48,17 +48,19 @@ tar -xf data.tar.gz
 
 ## Usage
 
+At the project root, run the following commands:
+
 Top 10 active users sorted by amount of PRs created and commits pushed
 ```
-analytics -sort="pr,commit" -limit=10 users
+go run ./cmd/analytics/analytics.go -sort="pr,commit" -limit=10 users
 ```
 
 Top 10 repositories sorted by amount of commits pushed
 ```
-analytics -sort="commit" -limit=10 repositories
+go run ./cmd/analytics/analytics.go -sort="commit" -limit=10 repositories
 ```
 
 Top 10 repositories sorted by amount of watch events
 ```
-analytics -sort="watch_events" -limit=10 repositories
+go run ./cmd/analytics/analytics.go -sort="watch_events" -limit=10 repositories
 ```
