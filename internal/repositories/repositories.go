@@ -1,7 +1,6 @@
 package repositories
 
 import (
-	"fmt"
 	"github.com/rw88/adjust-coding-challenge/internal/eventbus"
 	"github.com/rw88/adjust-coding-challenge/internal/events"
 	"github.com/rw88/adjust-coding-challenge/internal/readers"
@@ -9,11 +8,21 @@ import (
 	"log"
 	"os"
 	"sort"
-	"strconv"
 	"sync"
 )
 
-func ProcessRepositories(sort []string)  {
+type repoCollection []*Repository
+var repoList repoCollection
+var repos = map[string]*Repository{}
+
+type Repository struct {
+	Id string
+	Name string
+	AmountWatchEvents int
+	AmountCommits int
+}
+
+func ProcessRepositories(sort []string) repoCollection  {
 
 	wg := &sync.WaitGroup{}
 	wg.Add(2)
@@ -36,27 +45,22 @@ func ProcessRepositories(sort []string)  {
 
 			repoList.sortByFields(sort)
 
-			for i, r := range repoList[:10] {
-				fmt.Println("#" + strconv.Itoa(i+1) + " Repo:" + r.name + " " + " #Watch Events: " + strconv.Itoa(r.amountWatchEvents) + " #Commits:" + strconv.Itoa(r.amountCommits))
-			}
-
-			return
+			return repoList[:10]
 		case data := <- pushEventChan:
 			line := data.Data.([]string)
 			if repo, ok := repos[line[3]]; ok {
-				repo.amountCommits++
+				repo.AmountCommits++
 			}
 		case data := <- watchEventChan:
 			line := data.Data.([]string)
 			if repo, ok := repos[line[3]]; ok {
-				repo.amountWatchEvents++
+				repo.AmountWatchEvents++
 			}
 		}
 	}
 }
 
 
-type repoCollection []*Repository
 
 func (rc repoCollection) sortByFields(fields []string)  {
 
@@ -68,26 +72,15 @@ func (rc repoCollection) sortByFields(fields []string)  {
 		for _, sort := range fields {
 			switch sort {
 			case "commit":
-				return rc[i].amountCommits > rc[j].amountCommits
+				return rc[i].AmountCommits > rc[j].AmountCommits
 			case "watch_event":
-				return rc[i].amountWatchEvents > rc[j].amountWatchEvents
+				return rc[i].AmountWatchEvents > rc[j].AmountWatchEvents
 			}
 		}
 
 		return false
 	})
 }
-
-var repoList repoCollection
-
-type Repository struct {
-	id string
-	name string
-	amountWatchEvents int
-	amountCommits int
-}
-
-var repos = map[string]*Repository{}
 
 func ReadRepos(wg *sync.WaitGroup)  {
 	defer wg.Done()
@@ -104,8 +97,8 @@ func ReadRepos(wg *sync.WaitGroup)  {
 
 	for line := range ch {
 		repos[line[0]] = &Repository{
-			id: line[0],
-			name: line[1],
+			Id: line[0],
+			Name: line[1],
 		}
 		repoList = append(repoList, repos[line[0]])
 	}
