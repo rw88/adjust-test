@@ -23,7 +23,7 @@ type Repository struct {
 	AmountCommits int
 }
 
-func ProcessRepositories(sort []string) repoCollection  {
+func ProcessRepositories(sort []string, limit int) repoCollection  {
 
 	wg := &sync.WaitGroup{}
 	wg.Add(2)
@@ -46,7 +46,11 @@ func ProcessRepositories(sort []string) repoCollection  {
 
 			repoList.sortByFields(sort)
 
-			return repoList[:10]
+			if len(repoList) < limit {
+				return repoList
+			}
+
+			return repoList[:limit]
 		case data := <- pushEventChan:
 			line := data.Data.([]string)
 			if repo, ok := repos[line[3]]; ok {

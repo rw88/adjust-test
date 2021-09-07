@@ -24,7 +24,7 @@ type User struct {
 	AmountCommits int
 }
 
-func ProcessUsers(sorts []string) userCollection   {
+func ProcessUsers(sorts []string, limit int) userCollection   {
 
 	wg := &sync.WaitGroup{}
 	wg.Add(1)
@@ -46,7 +46,11 @@ func ProcessUsers(sorts []string) userCollection   {
 
 			userList.sortByFields(sorts)
 
-			return userList[:10]
+			if len(userList) < limit {
+				return userList
+			}
+
+			return userList[:limit]
 		case data := <- pushEventChan:
 			line := data.Data.([]string)
 			if user, ok := users[line[2]]; ok {
